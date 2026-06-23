@@ -1,4 +1,5 @@
 import json
+import math
 import os
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -16,7 +17,7 @@ def get_pages():
     books = load_books_data()
     books_per_page = 10
     chunks = list(chunked(books, books_per_page))
-    total_pages = len(chunks)
+    total_pages = math.ceil(len(books) / books_per_page)
     pages = []
     for page_num, book_group in enumerate(chunks, start=1):
         prev_page = f"index{page_num-1}.html" if page_num > 1 else None
@@ -42,12 +43,16 @@ def on_reload():
     for page in pages:
         books_rows = list(chunked(page['books'], 2))
         filename = os.path.join('pages', f"index{page['current_page']}.html")
+
+        pages_numbers = list(range(1, page['total_pages'] + 1))
+
         rendered_page = template.render(
             books_rows=books_rows,
             current_page=page['current_page'],
             total_pages=page['total_pages'],
             prev_link=page['prev_link'],
-            next_link=page['next_link']
+            next_link=page['next_link'],
+            pages_numbers=pages_numbers,
         )
         with open(filename, 'w', encoding="utf8") as file:
             file.write(rendered_page)
@@ -62,4 +67,4 @@ if __name__ == '__main__':
 
     server.watch('template.html', on_reload)
     server.watch('meta_data.json', on_reload)
-    server.serve(root='.')
+    server.serve(root='.', default_filename='pages/index1.html')
