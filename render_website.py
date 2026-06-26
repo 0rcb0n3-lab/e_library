@@ -15,9 +15,17 @@ def load_books_data():
 
 def get_pages():
     books = load_books_data()
+    for book in books:
+        book['genres_list'] = [
+            genre.strip()
+            for genre in book['genres'].replace('.',',').split(',')
+            if genre.strip()
+        ]
+
     books_per_page = 10
     chunks = list(chunked(books, books_per_page))
     total_pages = math.ceil(len(books) / books_per_page)
+
     pages = []
     for page_num, book_group in enumerate(chunks, start=1):
         prev_page = f"index{page_num-1}.html" if page_num > 1 else None
