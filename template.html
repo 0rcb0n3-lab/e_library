@@ -6,10 +6,11 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+
+      <!--Favicon-->
+    <link rel="icon" href="../media/favicon.svg" type="image/x-icon">
+
     <title>E - Library</title>
   </head>
   <body>
@@ -48,7 +49,7 @@
                 <div class="card mb-3" style="max-width: 540px;">
                   <div class="row no-gutters">
                     <div class="col-6">
-                      <img src="../{{ book.img_src }}"
+                      <img src="../media/{{ book.img_src }}"
                             class="card-img"
                             alt="{{ book.title }} {{ book.author }}">
                     </div>
@@ -59,7 +60,7 @@
                         {% for genre in book.genres_list %}
                         <h6><span class="badge badge-light">{{ genre }}</span></h6>
                         {% endfor %}
-                        <p><a href="{{ book.book_path }}"
+                        <p><a href="../media/{{ book.book_path }}"
                               style="color: blue"
                               target="_blank"
                               rel="noopener noreferrer">Читать</a>
@@ -76,10 +77,10 @@
     </div>  
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    <script src="../static/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    <script src="../static/bootstrap.bundle.min.js"
             integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
             crossorigin="anonymous"></script>
     <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
