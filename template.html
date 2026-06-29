@@ -8,9 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ static_prefix }}static/bootstrap.min.css">
 
-      <!--Favicon-->
+    <!--Favicon-->
     <link rel="icon" href="{{ static_prefix }}media/favicon.svg" type="image/x-icon">
-
     <title>E - Library</title>
   </head>
   <body>
@@ -19,69 +18,69 @@
         <ul class="pagination justify-content-start mb-0">
           <!-- Кнопка Назад -->
           {% if prev_link %}
-          <li class="page-item"><a class="page-link" href="{{ prev_link }}">Назад</a></li>
+            <li class="page-item"><a class="page-link" href="{{ prev_link }}">Назад</a></li>
           {% else %}
-          <li class="page-item disabled"><span class="page-link">Назад</span></li>
+            <li class="page-item disabled"><span class="page-link">Назад</span></li>
           {% endif %}
           <!-- Вывод номеров страниц (1, 2, 3...) -->
           {% for url in page_urls %}
             {% if loop.index == current_page %}
-            <!-- Текущая активная страница (not clickable) -->
-            <li class="page-item active" aria-current="page"><span class="page-link">{{ loop.index }}</span></li>
+              <!-- Текущая активная страница (not clickable) -->
+              <li class="page-item active" aria-current="page"><span class="page-link">{{ loop.index }}</span></li>
             {% else %}
-            <!-- Остальные страницы со ссылками -->
-            <li class="page-item"><a class="page-link" href="{{ url }}">{{ loop.index }}</a></li>
+              <!-- Остальные страницы со ссылками -->
+              <li class="page-item"><a class="page-link" href="{{ url }}">{{ loop.index }}</a></li>
             {% endif %}
           {% endfor %}
           <!-- Кнопка Вперёд -->
           {% if next_link %}
-          <li class="page-item"><a class="page-link" href="{{ next_link }}">Вперёд</a></li>
+            <li class="page-item"><a class="page-link" href="{{ next_link }}">Вперёд</a></li>
           {% else %}
-          <li class="page-item disabled"><span class="page-link">Вперёд</span></li>
+            <li class="page-item disabled"><span class="page-link">Вперёд</span></li>
           {% endif %}
         </ul>
       </nav>
       <hr class="mt-0 mb-4 border-secondary-subtle">
       <!-- Контент страницы -->
-
-        {% for row in books_rows %}
-          <div class="row gy-4 mb-2">
-            {% for book in row %}
-              <div class="col-md-6">
-                <!-- Карточка книги -->
-                <div class="card h-100 shadow-sm" >
-                  <div class="row g-0 flex-nowrap align-items-center">
-                    <div class="col-3 col-sm-3 p-2 d-flex align-items-center justify-content-center" style="min-width: 0;">
-                      <img src="{{ static_prefix }}media/{{ book.img_src }}"
-                            class="img-fluid rounded-start"
-                            style="max-height: 140px; object-fit: contain;"
-                            alt="{{ book.title }} {{ book.author }}">
-                    </div>
-                    <div class="col-9 col-sm-9" style="min-width: 0;">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ book.title }}</h5>
-                        <p class="card-text text-muted small mb-2">{{ book.author }}</p>
-                        <div class="mb-3">
-                          {% for genre in book.genres_list %}
+      {% for row in books_rows %}
+        <div class="row gy-4 mb-2">
+          {% for book in row %}
+            <div class="col-md-6">
+              <!-- Карточка книги -->
+              <div class="card h-100 shadow-sm">
+                <div class="row g-0 flex-nowrap align-items-center">
+                  <div class="col-3 col-sm-3 p-2 d-flex align-items-center justify-content-center"
+                        style="min-width: 0">
+                    <img src="{{ static_prefix }}media/{{ book.img_src }}"
+                          class="img-fluid rounded-start"
+                          style="max-height: 140px;
+                                object-fit: contain"
+                          alt="{{ book.title }} {{ book.author }}">
+                  </div>
+                  <div class="col-9 col-sm-9" style="min-width: 0;">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ book.title }}</h5>
+                      <p class="card-text text-muted small mb-2">{{ book.author }}</p>
+                      <div class="mb-3">
+                        {% for genre in book.genres_list %}
                           <span class="badge bg-light">{{ genre }}</span>
-                          {% endfor %}
-                        </div>
-                        <p class="mb-0"><a href="{{ static_prefix }}media/{{ book.book_path }}"
+                        {% endfor %}
+                      </div>
+                      <p class="mb-0">
+                        <a href="{{ static_prefix }}media/{{ book.book_path }}"
                               style="color: blue"
                               target="_blank"
                               rel="noopener noreferrer">Читать</a>
-                        </p>
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-            {% endfor %}
-          </div>
-        {% endfor %}
-
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
     </div>  
-    
     <script src="{{ static_prefix }}static/bootstrap.bundle.min.js"></script>
   </body>
 </html>
