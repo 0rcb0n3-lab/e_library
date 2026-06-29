@@ -1,3 +1,4 @@
+import argparse
 import json
 import math
 import os
@@ -7,16 +8,16 @@ from livereload import Server
 from more_itertools import chunked
 
 
-def load_books_data():
+def load_books_data(metadata_path):
     """Загружает данные о книгах из JSON файла."""
-    with open('meta_data.json', 'r', encoding='utf-8') as file:
+    with open(metadata_path, 'r', encoding='utf-8') as file:
         books_data = json.load(file)
     return books_data
 
 
-def get_pages():
+def get_pages(metadata_path, books_per_page):
     """Формирует структуру страниц и правильные относительные ссылки."""
-    books = load_books_data()
+    books = load_books_data(metadata_path)
     for book in books:
         book['genres_list'] = [
             genre.strip()
@@ -24,7 +25,6 @@ def get_pages():
             if genre.strip()
         ]
 
-    books_per_page = 10
     chunks = list(chunked(books, books_per_page))
     total_pages = math.ceil(len(books) / books_per_page)
 
@@ -48,13 +48,14 @@ def get_pages():
     return pages
 
 
-def on_reload():
+def on_reload(metadata_path, books_per_page):
+    """Рендерит HTML-страницы на основе шаблона Jinja2."""
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template('template.html')
-    pages = get_pages()
+    pages = get_pages(metadata_path, books_per_page)
 
     for page in pages:
         books_rows = list(chunked(page['books'], 2))
@@ -87,15 +88,37 @@ def on_reload():
 
 def main():
     """Основная точка входа в программу."""
+    # Настройка парсера аргументов командной строки
+    parser = argparse.ArgumentParser(
+        description='Генератор статического сайта книжной библиотеки.'
+    )
+    parser.add_argument(
+        '-db', '--data_base',
+        type=str,
+        default='meta_data.json',
+        help='Путь к JSON-файлу с базой книг (по умолчанию: meta_data.json)'
+    )
+    parser.add_argument(
+        '-bp', '--books_on_page',
+        type=int,
+        default=10,
+        help='Количество книг на одной странице (по умолчанию: 10)'
+    )
+    args = parser.parse_args()
+
     os.makedirs('pages', exist_ok=True)
 
-    # Генерация статического сайта
-    on_reload()
+    # Функция-замыкание для livereload, чтобы передавать аргументы при обновлении файлов
+    def reload_callback():
+        on_reload(args.data_base, args.books_on_page)
+
+    # Первая генерация статического сайта при запуске скрипта
+    reload_callback()
 
     # Запуск локального сервера разработки
     server = Server()
-    server.watch('template.html', on_reload)
-    server.watch('meta_data.json', on_reload)
+    server.watch('template.html', reload_callback)
+    server.watch(args.data_base, reload_callback)
     server.serve(root='.', default_filename='index.html')
 
 
