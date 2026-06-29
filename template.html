@@ -6,17 +6,17 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ static_prefix }}static/bootstrap.min.css">
 
       <!--Favicon-->
-    <link rel="icon" href="../media/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="{{ static_prefix }}media/favicon.svg" type="image/x-icon">
 
     <title>E - Library</title>
   </head>
   <body>
-    <div class="container">
-      <nav class="mt-4 mb-4 ml-3">
-        <ul class="pagination">
+    <div class="container py-4">
+      <nav class="mb-4 ms-3">
+        <ul class="pagination justify-content-start mb-0">
           <!-- Кнопка Назад -->
           {% if prev_link %}
           <li class="page-item"><a class="page-link" href="{{ prev_link }}">Назад</a></li>
@@ -24,13 +24,13 @@
           <li class="page-item disabled"><span class="page-link">Назад</span></li>
           {% endif %}
           <!-- Вывод номеров страниц (1, 2, 3...) -->
-          {% for page_num in pages_numbers %}
-            {% if page_num == current_page %}
+          {% for url in page_urls %}
+            {% if loop.index == current_page %}
             <!-- Текущая активная страница (not clickable) -->
-            <li class="page-item active" aria-current="page"><span class="page-link">{{ page_num }}</span></li>
+            <li class="page-item active" aria-current="page"><span class="page-link">{{ loop.index }}</span></li>
             {% else %}
             <!-- Остальные страницы со ссылками -->
-            <li class="page-item"><a class="page-link" href="../pages/index{{ page_num }}.html">{{ page_num }}</a></li>
+            <li class="page-item"><a class="page-link" href="{{ url }}">{{ loop.index }}</a></li>
             {% endif %}
           {% endfor %}
           <!-- Кнопка Вперёд -->
@@ -41,26 +41,32 @@
           {% endif %}
         </ul>
       </nav>
-      <div class="container">
+      <hr class="mt-0 mb-4 border-secondary-subtle">
+      <!-- Контент страницы -->
+
         {% for row in books_rows %}
-          <div class="row">
+          <div class="row gy-4 mb-2">
             {% for book in row %}
-              <div class="col-6 mb-2">
-                <div class="card mb-3" style="max-width: 540px;">
-                  <div class="row no-gutters">
-                    <div class="col-6">
-                      <img src="../media/{{ book.img_src }}"
-                            class="card-img"
+              <div class="col-md-6">
+                <!-- Карточка книги -->
+                <div class="card h-100 shadow-sm" >
+                  <div class="row g-0 flex-nowrap align-items-center">
+                    <div class="col-3 col-sm-3 p-2 d-flex align-items-center justify-content-center" style="min-width: 0;">
+                      <img src="{{ static_prefix }}media/{{ book.img_src }}"
+                            class="img-fluid rounded-start"
+                            style="max-height: 140px; object-fit: contain;"
                             alt="{{ book.title }} {{ book.author }}">
                     </div>
-                    <div class="col-6">
+                    <div class="col-9 col-sm-9" style="min-width: 0;">
                       <div class="card-body">
                         <h5 class="card-title">{{ book.title }}</h5>
-                        <p class="card-text">{{ book.author }}</p>
-                        {% for genre in book.genres_list %}
-                        <h6><span class="badge badge-light">{{ genre }}</span></h6>
-                        {% endfor %}
-                        <p><a href="../media/{{ book.book_path }}"
+                        <p class="card-text text-muted small mb-2">{{ book.author }}</p>
+                        <div class="mb-3">
+                          {% for genre in book.genres_list %}
+                          <span class="badge bg-light">{{ genre }}</span>
+                          {% endfor %}
+                        </div>
+                        <p class="mb-0"><a href="{{ static_prefix }}media/{{ book.book_path }}"
                               style="color: blue"
                               target="_blank"
                               rel="noopener noreferrer">Читать</a>
@@ -73,20 +79,9 @@
             {% endfor %}
           </div>
         {% endfor %}
-      </div>
+
     </div>  
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="../static/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-    <script src="../static/bootstrap.bundle.min.js"
-            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-            crossorigin="anonymous"></script>
-    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    -->
+    
+    <script src="{{ static_prefix }}static/bootstrap.bundle.min.js"></script>
   </body>
 </html>
