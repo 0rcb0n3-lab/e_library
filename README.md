@@ -57,7 +57,7 @@
 
 >`-db`, `--data_base` — Путь к JSON-файлу с метаданными книг (по умолчанию: `meta_data.json`).
 
->`-bp`, `--books_on_pages` — Лимит количества книг, отображаемых на одной странице (по умолчанию: `10`).
+>`-bp`, `--books_on_page` — Лимит количества книг, отображаемых на одной странице (по умолчанию: `10`).
 
 **Примеры кастомизации сборки:**
 
@@ -69,7 +69,7 @@ python render_website.py -bp 20
 python render_website.py -db custom_books.json
 
 # Комбинированный запуск с полной настройкой
-python render_website.py --data_base test_library.json --books_on_pages 15
+python render_website.py --data_base test_library.json --books_on_page 15
 ```
 
 ---
