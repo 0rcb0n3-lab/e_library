@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ static_prefix }}static/bootstrap.min.css">
 
     <!--Favicon-->
-    <link rel="icon" href="{{ static_prefix }}media/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="{{ static_prefix }}static/favicon.svg" type="image/x-icon">
     <title>E - Library</title>
   </head>
   <body>
@@ -51,7 +51,7 @@
                 <div class="row g-0 flex-nowrap align-items-center">
                   <div class="col-3 col-sm-3 p-2 d-flex align-items-center justify-content-center"
                         style="min-width: 0">
-                    <img src="{{ static_prefix }}media/{{ book.img_src }}"
+                    <img src="{{ static_prefix }}{{ ('media/' ~ book.img_src)|urlquote }}"
                           class="img-fluid rounded-start"
                           style="max-height: 140px;
                                 object-fit: contain"
@@ -67,7 +67,7 @@
                         {% endfor %}
                       </div>
                       <p class="mb-0">
-                        <a href="{{ static_prefix }}media/{{ book.book_path }}"
+                        <a href="{{ static_prefix }}{{ ('media/' ~ book.book_path)|urlquote }}"
                               style="color: blue"
                               target="_blank"
                               rel="noopener noreferrer">Читать</a>
